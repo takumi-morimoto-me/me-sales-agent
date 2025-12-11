@@ -1,0 +1,206 @@
+# AIネイティブCMS レイアウト実装値
+#
+# このファイルは、全体レイアウト（Header, Sidebar, Main Area等）の具体的な実装値を記録します。
+# "_TBD_" を具体値に置き換えてください。
+#
+# 参照元:
+# - docs/common/design/design-system.md
+# - docs/common/design/layout-definition.md
+# - CLAUDE.md（更新ルール）
+
+metadata:
+  version: "1.1"
+  last_updated: "2025-11-24"
+  description: "全体レイアウトの実装値（Header, Sidebar, Main Area等）"
+
+# ===================================
+# Header
+# ===================================
+header:
+  exists: false  # Phase 1ではHeaderは存在しない
+  height: "_TBD_"
+  padding: "_TBD_"
+  background_color: "_TBD_"
+  border: "_TBD_"
+
+# ===================================
+# Sidebar (Icon Sidebar)
+# ===================================
+sidebar:
+  # 基本仕様
+  type: "icon-sidebar"  # アイコンサイドバー型
+  expand_mode: "overlay"  # オーバーレイ展開
+
+  # 幅
+  width:
+    closed: "48px"  # 閉じている時の幅（w-12）
+    expanded: "288px"  # 開いている時の幅（w-72）
+
+  # パディング
+  padding:
+    header: "8px 8px 8px 8px"  # p-2 (top right bottom left)
+    header_override: "8px 0 8px 8px"  # p-2 pr-0（右パディングのみ削除してアイコンを収める）
+    footer: "8px 8px 8px 8px"  # p-2
+    footer_override: "8px 0 8px 8px"  # p-2 pr-0（右パディングのみ削除してアイコンを収める）
+    content: "0"  # px-0（左右パディングなし）
+
+  # ボーダー
+  border:
+    right: "1px solid var(--border)"  # border-r
+
+  # 背景色
+  background_color: "var(--sidebar-background)"  # bg-sidebar-background
+
+  # アクティブ状態
+  active_state:
+    background_color: "var(--sidebar-accent)"  # bg-sidebar-accent
+    text_color: "var(--sidebar-accent-foreground)"  # text-sidebar-accent-foreground
+
+  # トランジション
+  transition:
+    duration: "100ms"  # duration-100
+    easing: "ease-in-out"
+
+  # ロゴアイコン（Header内）
+  logo:
+    size: "32px"  # size-8（8 * 4px = 32px）
+    background_size: "32px"  # size-8
+    icon_size: "16px"  # size-4
+    background_color: "var(--sidebar-primary)"  # bg-sidebar-primary
+    text_color: "var(--sidebar-primary-foreground)"  # text-sidebar-primary-foreground
+    border_radius: "0.5rem"  # rounded-lg
+
+  # ナビゲーションボタン
+  nav_button:
+    height: "36px"  # !h-9
+    padding: "8px"  # px-2
+    text:
+      size: "12px"  # text-xs
+      weight: "600"  # font-semibold
+      visibility_when_closed: "hidden"  # ホバーしていない時は非表示
+    icon:
+      visibility_when_closed: "visible"  # アイコンは常に表示
+
+  # サブメニュー（ナビゲーション階層）
+  submenu:
+    structure: |
+      例: ストラテジー配下に
+        - トピッククラスター
+        - サイトアーキテクチャ
+        - キーワード
+    item_height: "36px"  # !h-9（メインメニューと同じ高さ）
+    gap: "4px"  # gap-1（メインメニューと同じ間隔）
+    border_left: "1px solid var(--sidebar-border)"  # border-l
+    margin_left: "14px"  # mx-3.5
+    padding_left: "10px"  # px-2.5
+    text:
+      size: "12px"  # text-xs
+      weight: "600"  # font-semibold
+      visibility_when_closed: "hidden"  # ホバーしていない時は非表示
+    icon:
+      visibility_when_closed: "visible"  # アイコンは常に表示
+    parent_child_spacing: "4px"  # gap-1（親と子の間隔もメインメニューと同じ）
+
+  # 展開状態管理
+  expansion_state:
+    reset_on_close: true  # サイドバーが閉じた時に展開状態をリセット
+    auto_expand_on_path: true  # パスに応じて自動展開
+
+  # ユーザーメニュー（Footer内）
+  user_menu:
+    min_height: "40px"  # !min-h-10
+    padding: "8px"  # p-2
+
+  # ホバー状態
+  hover:
+    shadow: "none"  # シャドーなし（v3.1で削除）
+    z_index: "50"  # z-50（オーバーレイ時）
+
+  # 実装メモ
+  notes: |
+    - v3.1でホバー時のシャドー（shadow-lg）を削除
+    - アイコン背景のクリッピング問題を解決するため、HeaderとFooterの右パディングを削除（pr-0）
+    - 左・上・下パディングは維持（p-2）
+    - Contentのパディングをpx-0に統一
+    - v3.2でサブメニュー構造を追加（ストラテジー配下にトピッククラスター等）
+    - ホバーしていない時はテキスト非表示、アイコンのみ表示
+    - サブメニュー項目の高さをメインメニューと統一（h-9）
+    - 親子間隔もメインメニュー項目間と同じ（gap-1）
+
+# ===================================
+# Content Sidebar (2つ目のサイドバー)
+# ===================================
+content_sidebar:
+  exists: true
+  width:
+    open: "360px"  # w-90（カスタム幅、--sidebar-width: 360px）
+    closed: "0"  # w-0（完全に非表示）
+  border:
+    right: "1px solid var(--border)"  # border-r（閉じている時はborder-r-0）
+  transition:
+    duration: "200ms"  # duration-200
+
+  # ヘッダー
+  header:
+    padding: "16px"  # p-4
+    border_bottom: "1px solid var(--border)"  # border-b
+
+  # コンテント
+  content:
+    padding: "0"  # px-0
+
+  # 実装メモ
+  notes: |
+    - トグルボタン（PanelLeft）でコンテンツサイドバーの開閉を制御
+    - useSidebarState()でisContentSidebarOpen状態を管理
+
+# ===================================
+# Main Area
+# ===================================
+main_area:
+  # レイアウトパターン
+  pattern_a:  # 協働モード（2カラム）
+    ai_panel:
+      default_width: "400px"  # デフォルト幅（PC）
+      min_width: "300px"  # 最小幅
+      max_width: "600px"  # 最大幅
+      resizable: true  # リサイズ可能
+    content_view:
+      width: "remaining"  # 残りスペース全体
+      padding: "24px 32px"  # p-6 lg:p-8
+
+  pattern_b:  # 指揮モード（1カラム）
+    width: "100%"  # 全幅
+    max_width: "1200px"  # 最大幅（中央配置時）
+    padding: "24px 32px"  # p-6 lg:p-8
+
+  # 実装メモ
+  notes: |
+    - パターンAとBの切り替えはReact Context APIで管理
+    - AIの指示やユーザーの画面選択に応じて動的に切り替え
+
+# ===================================
+# レスポンシブブレークポイント
+# ===================================
+responsive:
+  mobile:
+    max_width: "767px"
+    sidebar:
+      type: "hamburger-menu"  # ハンバーガーメニュー
+    pattern_a:
+      layout: "tab-switching"  # タブ切り替え（AI Panel / Content View）
+
+  tablet:
+    min_width: "768px"
+    max_width: "1023px"
+    sidebar:
+      width: "48px"  # 固定幅
+    pattern_a:
+      ai_panel_width: "320px"  # 固定幅
+
+  desktop:
+    min_width: "1024px"
+    sidebar:
+      width: "48px"
+    pattern_a:
+      ai_panel_width: "400px"  # リサイズ可能
